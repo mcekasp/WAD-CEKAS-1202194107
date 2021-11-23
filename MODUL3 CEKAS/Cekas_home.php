@@ -3,11 +3,15 @@
     $db = mysqli_connect("localhost", "root", "", "modul3");
 
     //ambil data dari database
-    $result = mysqli_query($db, "SELECT * FROM buku_table");
+    $result = mysqli_query($db, "SELECT * FROM buku_table ORDER BY id_buku");
 
-    //ambil data dari objek result (fetch)
-    //$buku = mysqli_fetch_row($result);
-    //var_dump($buku);
+    $kosong = ('
+                <div class="col-8" id="empty" style="margin:auto; padding-top:200px">
+                    <center><h3>Belum Ada Buku</h3></center>
+                    <hr style="height: 4px; color:dodgerblue">
+                    <center><h6>Silakan Menambahkan Buku</h6></center>
+                </div>');
+    $cekkosong = mysqli_num_rows($result);
 ?>
 <!doctype html>
 <html lang="en">
@@ -32,27 +36,28 @@
     </nav>
     
     <section>
-        <?php while($data = mysqli_fetch_assoc($result)) : ?>
-
-            <div class="row row-cols-1 row-cols-md-3" style="margin: 80px;">
+        <div class="row row-cols-1 row-cols-md-3" style="margin: 80px; padding-top: 50px;">
+            <?php if($cekkosong==0){ ?>
+                <div class="col-8" id="empty" style="margin:auto; padding-top:100px">
+                    <center><h3>Belum Ada Buku</h3></center>
+                    <hr style="height: 4px; color:dodgerblue">
+                    <center><h6>Silakan Menambahkan Buku</h6></center>
+                </div>
+            <?php } ?>
+            <?php while($data = mysqli_fetch_assoc($result)) : ?>
                 <div class="col">
                     <div class="card h-100">
-                        <img src="<?= $data["gambar"] ?>" class="card-img-top" alt="..." style="height: 313px;">
+                        <img src="file/<?= $data["gambar"]?>" class="card-img-top" alt="..." style="height: 313px;">
                         <div class="card-body">
                             <h5 class="card-title"><?= $data["judul_buku"] ?></h5>
                             <p class="card-text"><?= $data["deskripsi"] ?></p>
                         </div>
                         <div class="card-footer">
-                            <a href="" class="btn btn-primary">Tampilkan lebih lanjut</a>
+                            <a class="btn btn-primary" href="Cekas_detailbuku.php?id_buku=<?=$data['id_buku']?>">Tampilkan lebih lanjut</a>
                         </div>
                     </div>
                 </div>
-            </div>
-        <?php endwhile ?>
-        <div class="col-8" id="empty" style="margin:auto; padding-top:200px">
-            <center><h3>Belum Ada Buku</h3></center>
-            <hr style="height: 4px; color:dodgerblue">
-            <center><h6>Silakan Menambahkan Buku</h6></center>
+            <?php endwhile ?>
         </div>
     </section>
     <section style="padding-top: 100px;">

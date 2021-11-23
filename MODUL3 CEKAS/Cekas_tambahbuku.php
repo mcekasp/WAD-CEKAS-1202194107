@@ -2,20 +2,50 @@
 $db = mysqli_connect("localhost", "root", "", "modul3");
 
 if(isset($_POST["submit"])) {
-  $judul = $_POST["judul_buku"];
-  $penulis = $_POST["penulis_buku"];
-  $tahun = $_POST["tahun_terbit"];
-  $desc = $_POST["deskripsi"];
+  $judul = htmlspecialchars($_POST["judul_buku"]);
+  $penulis = htmlspecialchars($_POST["penulis_buku"]);
+  $tahun = htmlspecialchars($_POST["tahun_terbit"]);
+  $desc = htmlspecialchars($_POST["deskripsi"]);
   $gambar = $_POST["gambar"];
-  $tag = $_POST["tag"];
+  $tag = implode(",", $_POST['tag']);
   $bahasa = $_POST["bahasa"];
+
+  $ekstensi =  array('png','jpg','jpeg');
+  $namafoto = $_FILES['gambar']['name'];
+  $size = $_FILES['gambar']['size'];
+  $ext = pathinfo($namafoto, PATHINFO_EXTENSION);
 
   $query = "INSERT INTO buku_table
             VALUES
-            ('','$judul','$penulis','$tahun','$desc','$gambar','$tag','$bahasa')
+            ('','$judul','$penulis','$tahun','$desc','$namafoto','$tag','$bahasa')
             ";
 
-  mysqli_query($db, $query);
+  if(!in_array($ext,$ekstensi)) {
+    echo "
+          <script>
+          alert('Data gagal ditambahkan');
+          document.location.href = 'Cekas_home.php';
+          </script>
+          ";
+  }else{
+    if($size < 1044070){
+      move_uploaded_file($_FILES['gambar']['tmp_name'], 'file/'.$namafoto);
+      mysqli_query($db,$query);
+      echo "
+          <script>
+          alert('Data berhasil ditambahkan');
+          document.location.href = 'Cekas_home.php';
+          </script>
+          ";
+    }else{
+      echo "
+            <script>
+            alert('Ukuran file gambar terlalu besar');
+            document.location.href = 'Cekas_home.php';
+            </script>
+            ";
+    }
+  }
 }
 
 ?>
@@ -43,12 +73,12 @@ if(isset($_POST["submit"])) {
     </nav>
     <section style="padding-top: 150px; ">
       <div class="shadow-lg p-3 mb-5 bg-body rounded" style="width: 90%; margin:auto">
-        <form action="" method="post">
+        <form action="" method="post" enctype="multipart/form-data">
           <div class="card-body">
             <center><h3 style="padding: 15px;"><b>Tambah Data Buku</b></h3></center>
             <div class="mb-4">
               <label for="formGroupExampleInput" class="form-label"><b>Judul Buku</b></label>
-              <input class="form-control" type="text" name="judul_buku" id="judul_buku" placeholder="Contoh : Pemrograman Web PHP">
+              <input class="form-control" type="text" name="judul_buku" id="judul_buku" placeholder="Contoh : Pemrograman Web PHP" required>
             </div>
             <div class="mb-4">
               <label for="formGroupExampleInput" class="form-label"><b>Penulis</b></label>
@@ -56,21 +86,21 @@ if(isset($_POST["submit"])) {
             </div>
             <div class="mb-4">
               <label for="formGroupExampleInput" class="form-label"><b>Tahun Terbit</b></label>
-              <input class="form-control" name="tahun_terbit" type="text" id="tahun_terbit" placeholder="Contoh : 2021">
+              <input class="form-control" name="tahun_terbit" type="text" id="tahun_terbit" placeholder="Contoh : 2021" required>
             </div>
             <div class="mb-4">
               <label for="exampleFormControlTextarea1" class="form-label"><b>Deskripsi</b></label>
-              <textarea class="form-control" name="deskripsi" type="text" id="Deskripsi" rows="3"></textarea>
+              <textarea class="form-control" name="deskripsi" type="text" id="Deskripsi" rows="3" required></textarea>
             </div>
             <div class="row mb-4">
               <div>
                 <label for="bahasa" class="col-form-label" style="padding-inline-end: 15px;"><b>Bahasa</b></label>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="bahasa" id="bahasa" value="Indonesia">
+                  <input class="form-check-input" type="radio" name="bahasa" id="bahasa" value="Indonesia" required>
                   <label class="form-check-label" for="inlineRadio1">Indonesia</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="bahasa" id="bahasa" value="Lainnya">
+                  <input class="form-check-input" type="radio" name="bahasa" id="bahasa" value="Lainnya" required>
                   <label class="form-check-label" for="inlineRadio2">Lainnya</label>
                 </div>
               </div>
@@ -79,38 +109,39 @@ if(isset($_POST["submit"])) {
               <div>
                 <label for="tag" class="col-form-label" style="padding-inline-end: 15px;"><b>Tag</b></label>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" name="tag" id="tag" value="Pemrograman">
+                  <input class="form-check-input" type="checkbox" name="tag[]" id="tag" value="Pemrograman">
                   <label class="form-check-label" for="inlineRadio1">Pemrograman</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" name="tag" id="tag" value="Website">
+                  <input class="form-check-input" type="checkbox" name="tag[]" id="tag" value="Website">
                   <label class="form-check-label" for="inlineRadio2">Website</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" name="tag" id="tag" value="Java">
+                  <input class="form-check-input" type="checkbox" name="tag[]" id="tag" value="Java">
                   <label class="form-check-label" for="inlineRadio2">Java</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" name="tag" id="tag" value="OOP">
+                  <input class="form-check-input" type="checkbox" name="tag[]" id="tag" value="OOP">
                   <label class="form-check-label" for="inlineRadio2">OOP</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" name="tag" id="tag" value="MVC">
+                  <input class="form-check-input" type="checkbox" name="tag[]" id="tag" value="MVC">
                   <label class="form-check-label" for="inlineRadio2">MVC</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" name="tag" id="tag" value="Kalkulus">
+                  <input class="form-check-input" type="checkbox" name="tag[]" id="tag" value="Kalkulus">
                   <label class="form-check-label" for="inlineRadio2">Kalkulus</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" name="tag" id="tag" value="Lainnya">
+                  <input class="form-check-input" type="checkbox" name="tag[]" id="tag" value="Lainnya">
                   <label class="form-check-label" for="inlineRadio2">Lainnya</label>
                 </div>
               </div>
             </div>
             <div class="mb-4">
               <label for="formFileSm" class="form-label"><b>Gambar</b></label>
-              <input class="form-control form-control-sm" id="gambar" name="gambar" type="file">
+              <input class="form-control form-control-sm" id="gambar" name="gambar" type="file" required>
+              <p>Ekstensi yang diperbolehkan .png | .jpg | .jpeg</p>
             </div>
             <div class="d-grid gap-2 col-4 mx-auto">
               <button class="btn btn-primary" type="submit" name="submit">+ TAMBAH</button>
