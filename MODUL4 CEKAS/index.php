@@ -5,19 +5,14 @@ include_once("function.php");
 
 $db = mysqli_connect("localhost", "root", "", "wad_modul4");
 
-if(isset($_POST["input"])) {
-  $idUser = $_SESSION['id'];
-  $nama = $_POST['nama'];
-  $lokasi = $_POST['lokasi'];
-  $tanggal = $_POST['tanggal'];
-  $harga = $_POST['harga'];
-
-  $query = "INSERT INTO buku_table
-            VALUES
-            ('','$idUser','$nama','$lokasi','$harga','$tanggal')
-            ";
-
-  mysqli_query($db, $query);
+if(isset($_POST["input1"])) {
+  tambah1($_POST, $_SESSION);
+}
+if (isset($_POST["input2"])){
+  tambah2($_POST,$_SESSION);
+}
+if (isset($_POST["input3"])){
+  tambah3($_POST,$_SESSION);
 }
 
 ?>
@@ -71,7 +66,7 @@ if(isset($_POST["input"])) {
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="margin-right: 60px;">
                   <li><a class="dropdown-item" href="profile.php">Profile</a></li>
                   <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Logout</a></li>
+                  <li><a class="dropdown-item" href="logout.php">Logout</a></li>
                 </ul>
               </li>
           </ul>
@@ -126,11 +121,11 @@ if(isset($_POST["input"])) {
                           </div>
                           <div class="modal-body">
                             <label for="tanggal" class="form-label">Tanggal Perjalanan</label>
-                            <input type="date" class="form-control" id="tanggal" name="tanggal" placeholder="dd/mmm/yyyy">
+                            <input type="date" class="form-control" id="tanggal" name="tanggal" placeholder="dd/mmm/yyyy" required>
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" name="input">Tambahkan</button>
+                            <button type="submit" class="btn btn-primary" name="input1">Tambahkan</button>
                           </div>
                         </div>
                       </div>
@@ -152,17 +147,17 @@ if(isset($_POST["input"])) {
               <div class="card-footer">
                 <div class="d-grid gap-2">
                   <?php if(!isset($_SESSION["id"])):  ?>
-                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#tanggal" disabled>Pesan Tiket</button>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#tanggal2" disabled>Pesan Tiket</button>
                   <?php endif?>
                   <?php if(isset($_SESSION["id"])):  ?>  
-                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#tanggal">Pesan Tiket</button>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#tanggal2">Pesan Tiket</button>
                   <?php endif?>
-                  <form action="bookings.php" method="POST">
-                    <input type="text" name="nama" value="Gunung Bromo" hidden>
-                    <input type="text" name="lokasi" value="Malang" hidden>
-                    <input type="text" name="harga" value="2000000" hidden>
+                  <form action="" method="POST">
+                    <input type="text" name="nama2" value="Gunung Bromo" hidden>
+                    <input type="text" name="lokasi2" value="Malang" hidden>
+                    <input type="text" name="harga2" value="2000000" hidden>
                     
-                    <div class="modal fade" id="tanggal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="tanggal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                       <div class="modal-dialog">
                         <div class="modal-content">
                           <div class="modal-header">
@@ -171,11 +166,11 @@ if(isset($_POST["input"])) {
                           </div>
                           <div class="modal-body">
                             <label for="tanggal" class="form-label">Tanggal Perjalanan</label>
-                            <input type="date" class="form-control" id="tanggal" name="tanggal" placeholder="dd/mmm/yyyy">
+                            <input type="date" class="form-control" id="tanggal" name="tanggal2" placeholder="dd/mmm/yyyy" required>
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" name="input">Tambahkan</button>
+                            <button type="submit" class="btn btn-primary" name="input2">Tambahkan</button>
                           </div>
                         </div>
                       </div>
@@ -196,17 +191,17 @@ if(isset($_POST["input"])) {
               <div class="card-footer">
                 <div class="d-grid gap-2">
                   <?php if(!isset($_SESSION["id"])):  ?>
-                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#tanggal" disabled>Pesan Tiket</button>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#tanggal3" disabled>Pesan Tiket</button>
                   <?php endif?>
                   <?php if(isset($_SESSION["id"])):  ?>  
-                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#tanggal">Pesan Tiket</button>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#tanggal3">Pesan Tiket</button>
                   <?php endif?>
-                  <form action="bookings.php" method="POST">
-                    <input type="text" name="nama" value="Tanah Lot" hidden>
-                    <input type="text" name="lokasi" value="Bali" hidden>
-                    <input type="text" name="harga" value="5000000" hidden>
+                  <form action="" method="POST">
+                    <input type="text" name="nama3" value="Tanah Lot" hidden>
+                    <input type="text" name="lokasi3" value="Bali" hidden>
+                    <input type="text" name="harga3" value="5000000" hidden>
                     
-                    <div class="modal fade" id="tanggal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="tanggal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                       <div class="modal-dialog">
                         <div class="modal-content">
                           <div class="modal-header">
@@ -215,11 +210,11 @@ if(isset($_POST["input"])) {
                           </div>
                           <div class="modal-body">
                             <label for="tanggal" class="form-label">Tanggal Perjalanan</label>
-                            <input type="date" class="form-control" id="tanggal" name="tanggal" placeholder="dd/mmm/yyyy">
+                            <input type="date" class="form-control" id="tanggal" name="tanggal3" placeholder="dd/mmm/yyyy" required>
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" name="input">Tambahkan</button>
+                            <button type="submit" class="btn btn-primary" name="input3">Tambahkan</button>
                           </div>
                         </div>
                       </div>

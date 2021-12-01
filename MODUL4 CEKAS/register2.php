@@ -3,14 +3,16 @@ session_start();
 include_once("function.php");
 
 if (isset($_SESSION["id"])) {
-    header("Location:index.php");
+    header("Location: index.php");
     exit;
 }
 
-if(isset($_POST["login"])) {
-    login($_POST);
+if(isset($_POST["daftar"])) {
+    pendaftaran($_POST);
 }
 ?>
+
+
 
 <!doctype html>
 <html lang="en">
@@ -25,62 +27,62 @@ if(isset($_POST["login"])) {
     <title>EAD Travel</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg justify-content-between navbar-light bg-info">
+    <nav class="navbar navbar-expand-lg justify-content-between" style="background-color: burlywood;">
         <div class="container-md">
-            <a class="navbar-brand" href="index.php"><b>EAD Travel</b></a>
+            <a class="navbar-brand" href="index.php" style="color: black;"><b>EAD Travel</b></a>
         </div>
         <ul class="navbar-nav font-weight bold" style="padding-right: 80px;">
             <li class="nav-item">
-                <a class="nav-link" href="register.php">Register</a>
+                <a class="nav-link" href="register.php" style="color: black;">Register</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="login.php">Login</a>
+                <a class="nav-link" href="login.php" style="color: black;">Login</a>
             </li>
         </ul>
     </nav>
-    <?php if(isset($_SESSION['message'])) : ?>
-        <div class="alert alert-danger alert-dismissible fade show fade in" role="alert">
-            <?= $_SESSION['message']; ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true"></span>
-            </button>
-        </div>
-    <?php unset($_SESSION['message']);endif;?>
 
-    <?php if(isset($_SESSION['registered'])) : ?>
-        <div class="alert alert-succes alert-dismissible fade show fade in" role="alert">
-            <?= $_SESSION['registered']; ?>
+    <?php if(isset($_SESSION['message'])) : ?>
+        <div class="alert alert-warning alert-dismissible fade show fade in" role="alert">
+            <?= $_SESSION['message'];?>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true"></span>
             </button>
         </div>
-    <?php unset($_SESSION['registered']);endif;?>
+    <?php unset($_SESSION['message']); endif; ?>
 
     <div class="container" style="margin-top: 100px;">
         <div class="row justifiy-content-center">
             <div class="col-md-6" style="margin: auto;">
                 <div class="card">
                     <div class="continer">
-                        <h4 class="card-title text-center mt-4 pb-2">Login</h4>
+                        <h4 class="card-title text-center mt-4 pb-2">Register</h4>
                         <div class="card-body pt-0">
                             <hr>
                             <form action="" method="POST">
+                                <div class="mb-3">
+                                    <label for="nama">Nama</label>
+                                    <input required type="text" class="form-control" id="nama" name="nama" placeholder=" Masukkan Nama Lengkap">
+                                </div>
                                 <div class="mb-3">
                                     <label for="email">E-mail</label>
                                     <input required type="email" class="form-control" id="email" name="email" placeholder=" Masukkan Alamat E-mail">
                                 </div>
                                 <div class="mb-3">
+                                    <label for="nohp">Nomor Handphone</label>
+                                    <input required type="text" class="form-control" id="nohp" name="nohp" placeholder=" Masukkan Nomor Handphone">
+                                </div>
+                                <div class="mb-3">
                                     <label required for="password">Kata Sandi</label>
                                     <input required type="password" class="form-control" id="password" name="password" placeholder="Kata Sandi Anda">
                                 </div>
-                                <div class="mb-3 form-check">
-                                    <label class="form-check-label" for="remember" >Remember Me</label>
-                                    <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                                <div class="mb-3">
+                                    <label required for="cpassword">Konfirmasi Kata Sandi</label>
+                                    <input required type="password" class="form-control" id="cpassword" name="cpassword" placeholder="Konfirmasi Kata Sandi Anda">
                                 </div>
 
                                 <div class="text-center pt-2">
-                                    <button type="submit" class="btn btn-primary" name="login">Login</button>
-                                    <p class="mt-3">Anda belum punya akun? <a href="register.php" class="text-secondary">Register</a></p>
+                                    <button type="submit" class="btn btn-primary" name="daftar">Daftar</button>
+                                    <p class="mt-3">Anda sudah punya akun? <a href="login.php" class="text-secondary">Login</a></p>
                                 </div>
                             </form>
                         </div>
@@ -90,10 +92,10 @@ if(isset($_POST["login"])) {
         </div>
     </div>
 
-    <section style="padding-top:80px">
-        <nav class="navbar navbar-light bg-info">
+    <section style="margin-top:80px;">
+        <nav class="navbar" style="background-color: burlywood;">
             <div style="margin: auto; padding:8p; text-align:center">
-                <p>&copy2021 Copyright: <a data-bs-toggle="modal" href="#modalku">CEKAS_1202194107</a></p>
+                <p>&copy2021 Copyright: <a data-bs-toggle="modal" href="#modalku" style="color: black;">CEKAS_1202194107</a></p>
             </div>
             <div class="modal" tabindex="-1" id="modalku">
               <div class="modal-dialog">

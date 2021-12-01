@@ -6,7 +6,13 @@ if (!isset($_SESSION["id"])) {
     header("Location:index.php");
     exit;
 }
+$id = $_SESSION["id"];
+$query = mysqli_query($db,"SELECT * FROM users WHERE id = $id");
+$data = mysqli_fetch_assoc($query);
 
+if(isset($_POST["simpan"])){
+  update($_POST,$_SESSION);
+}
 
 ?>
 <!doctype html>
@@ -41,47 +47,84 @@ if (!isset($_SESSION["id"])) {
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="margin-right: 60px;">
                 <li><a class="dropdown-item" href="profile.php">Profile</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Logout</a></li>
+                <li><a class="dropdown-item" href="logout.php">Logout</a></li>
                 </ul>
             </li>
         </ul>
     </nav>
 
-    <div class="container" style="margin-top: 100px;">
-        <div class="row justifiy-content-center">
-            <div class="col-md-6" style="margin: auto;">
-                <div class="card">
-                    <div class="continer">
-                        <h4 class="card-title text-center mt-4 pb-2">Login</h4>
-                        <div class="card-body pt-0">
-                            <hr>
-                            <form action="" method="POST">
-                                <div class="mb-3">
-                                    <label for="email">E-mail</label>
-                                    <input required type="email" class="form-control" id="email" name="email" placeholder=" Masukkan Alamat E-mail">
-                                </div>
-                                <div class="mb-3">
-                                    <label required for="password">Kata Sandi</label>
-                                    <input required type="password" class="form-control" id="password" name="password" placeholder="Kata Sandi Anda">
-                                </div>
-                                <div class="mb-3 form-check">
-                                    <label class="form-check-label" for="remember" >Remember Me</label>
-                                    <input type="checkbox" class="form-check-input" id="remember" name="remember">
-                                </div>
-
-                                <div class="text-center pt-2">
-                                    <button type="submit" class="btn btn-primary" name="login">Login</button>
-                                    <p class="mt-3">Anda belum punya akun? <a href="register.php" class="text-secondary">Register</a></p>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <?php if(isset($_SESSION['Gupdate'])) : ?>
+        <div class="alert alert-danger alert-dismissible fade show fade in" role="alert">
+            <?= $_SESSION['Gupdate'];?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true"></span>
+            </button>
         </div>
-    </div>
+    <?php unset($_SESSION['Gupdate']); endif; ?>
 
-    <section style="position:absolute; right:0; left:0; bottom:0;">
+    <?php if(isset($_SESSION['update'])) : ?>
+        <div class="alert alert-succes alert-dismissible fade show fade in" role="alert">
+            <?= $_SESSION['update']; ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true"></span>
+            </button>
+        </div>
+    <?php unset($_SESSION['update']);endif;?>
+
+    <!---body profile --->
+    <form action= "" method="POST" style="margin-top: 50px; margin-right:80px; margin-left:80px;">
+    <h4 class="card-title text-center mt-4 pb-2">Profile</h4>
+      <div class="row mb-3">
+        <label for="email" class="col-sm-2 col-form-label">Email</label>
+        <div class="col-sm-10">
+          <input type="email" class="form-control" id="email" name="email" value=<?= $data["email"];?> readonly>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label for="nama" class="col-sm-2 col-form-label">Nama</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="nama" name="nama" placeholder=<?= $data["nama"];?>>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label for="nohp" class="col-sm-2 col-form-label">Nomor Handphone</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="nohp" name="nohp" placeholder=<?= $data["no_hp"];?>>
+        </div>
+      </div>
+      <hr>
+      <div class="row mb-3">
+        <label for="passsword" class="col-sm-2 col-form-label">Kata Sandi</label>
+        <div class="col-sm-10">
+          <input type="password" class="form-control" id="password" name="password">
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label for="cpassword" class="col-sm-2 col-form-label">Konfirmasi Kata Sandi</label>
+        <div class="col-sm-10">
+          <input type="password" class="form-control" id="cpassword" name="cpassword">
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label for="warna" class="col-sm-2 col-form-label">Warna Navbar</label>
+        <div class="col-sm-10">
+          <select id="inputState" class="form-select" id="warna" name="warna">
+            <option>Biru</option>
+            <option>Coklat</option>
+          </select>
+        </div>
+      </div>
+      <div class="text-center pt-2">
+        <button type="submit" class="btn btn-primary" name="simpan">Simpan</button>
+        <a class="btn btn-warning" href="index.php" role="button">Cancel</a>
+      </div>
+      
+    </form>
+
+    <!--- --->
+    
+
+    <section style="margin-top:80px;">
         <nav class="navbar navbar-light bg-info">
             <div style="margin: auto; padding:8p; text-align:center">
                 <p>&copy2021 Copyright: <a data-bs-toggle="modal" href="#modalku">CEKAS_1202194107</a></p>

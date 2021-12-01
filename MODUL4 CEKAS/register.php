@@ -3,7 +3,7 @@ session_start();
 include_once("function.php");
 
 if (isset($_SESSION["id"])) {
-    header("Location:index.php");
+    header("Location: index.php");
     exit;
 }
 
@@ -92,7 +92,7 @@ if(isset($_POST["daftar"])) {
         </div>
     </div>
 
-    <section style="position:absolute; right:0; left:0; bottom:0;">
+    <section style="margin-top:80px;">
         <nav class="navbar navbar-light bg-info">
             <div style="margin: auto; padding:8p; text-align:center">
                 <p>&copy2021 Copyright: <a data-bs-toggle="modal" href="#modalku">CEKAS_1202194107</a></p>

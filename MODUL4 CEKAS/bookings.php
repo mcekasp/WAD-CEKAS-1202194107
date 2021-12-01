@@ -2,16 +2,19 @@
 session_start();
 
 include_once("function.php");
+$id = $_SESSION["id"];
+
+$result = mysqli_query($db, "SELECT * FROM bookings WHERE user_id = '$id'");
 
 if (!isset($_SESSION["id"])) {
     header("Location:index.php");
     exit;
 }
+if(isset($_POST["hapus"])){
+    hapus($_POST);
+}
 
-$id = $_SESSION['id'];
 
-$result = mysqli_query($db, "SELECT * FROM bookings ORDER BY id");
-$total = mysqli_query($db, "SELECT SUM(harga) FROM bookings WHERE user_id ='$id'");
 ?>
 
 
@@ -47,7 +50,7 @@ $total = mysqli_query($db, "SELECT SUM(harga) FROM bookings WHERE user_id ='$id'
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="margin-right: 60px;">
                 <li><a class="dropdown-item" href="profile.php">Profile</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Logout</a></li>
+                <li><a class="dropdown-item" href="logout.php">Logout</a></li>
                 </ul>
             </li>
         </ul>
@@ -67,7 +70,7 @@ $total = mysqli_query($db, "SELECT SUM(harga) FROM bookings WHERE user_id ='$id'
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $i=1; ?>
+                    <?php $i=1; $totalHarga = 0;?>
                     <?php while($data = mysqli_fetch_assoc($result)) : ?>
                         <tr>
                             <td><?= $i;?></td>
@@ -75,11 +78,14 @@ $total = mysqli_query($db, "SELECT SUM(harga) FROM bookings WHERE user_id ='$id'
                             <td><?= $data["lokasi"];?></td>
                             <td><?= $data["tanggal"];?></td>
                             <td>Rp.<?= $data["harga"];?></td>
-                            <td><button class="btn btn-danger" type="submit" name="hapus">Hapus</button></td>
+                            
+                            <td><a class="btn btn-danger" href="hapus.php?id=<?=$data["id"];?>" role="button">Hapus</a></td>
+                            
                         </tr>
-                    <?php $i++; ?>
                     <?php $totalHarga += $data['harga']; ?>
+                    <?php $i++; ?>
                     <?php endwhile ?>
+                    
                     <tr>
                         <th colspan="4">Total</th>
                         <th colspan="2">Rp.<?php echo($totalHarga); ?></th>

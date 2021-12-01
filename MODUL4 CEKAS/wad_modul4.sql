@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 28, 2021 at 05:44 PM
+-- Generation Time: Dec 01, 2021 at 06:38 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.11
 
@@ -41,32 +41,39 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`id`, `user_id`, `nama_tempat`, `lokasi`, `harga`, `tanggal`) VALUES
-(2, 10, 'Raja Ampat', 'Papua', 7000000, '2021-12-08');
+(28, 1, 'Tanah Lot', 'Bali', 5000000, '2021-12-11'),
+(29, 1, 'Gunung Bromo', 'Malang', 2000000, '2021-12-25'),
+(30, 1, 'Tanah Lot', 'Bali', 5000000, '2021-12-04'),
+(33, 4, 'Gunung Bromo', 'Malang', 2000000, '2021-12-10'),
+(34, 4, 'Tanah Lot', 'Bali', 5000000, '2021-12-05'),
+(35, 3, 'Gunung Bromo', 'Malang', 2000000, '2021-12-03'),
+(36, 3, 'Tanah Lot', 'Bali', 5000000, '2021-12-05'),
+(37, 5, 'Gunung Bromo', 'Malang', 2000000, '2021-12-09');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Table structure for table `users`
 --
 
-CREATE TABLE `user` (
+CREATE TABLE `users` (
   `id` bigint(20) NOT NULL,
   `nama` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `no_hp` varchar(50) NOT NULL
+  `no_hp` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `user`
+-- Dumping data for table `users`
 --
 
-INSERT INTO `user` (`id`, `nama`, `email`, `password`, `no_hp`) VALUES
-(1, 'coba', 'coba@gmail.com', '$2y$10$yCLOnRNjuGdQ1XEU5zSZlOlPYSUuEAMFij9LwdoAxddhLZTyftrv.', '1233'),
-(4, 'coba2', 'coba2@gmail.com', '$2y$10$8ZB/ILuEwKsSDTqWobFtfuhgcbtWGXr.YnltkBkk4q/ntizxa8Bbi', '674'),
-(8, 'coba3', 'coba3@gmail.com', '$2y$10$ghbpLUs6skVMHBBu3yoRVev55MoK/9uMisZFyTNgRJY.N6euT8YFu', '455'),
-(9, 'coba3', 'cekas24@gmail.com', '$2y$10$kkAj.TUhrHZZaFBpIlTONOzyuPhUfe3y.cx3HNZUicCKDcceE04MC', '098'),
-(10, 'cece', 'cece@gmail.com', '$2y$10$hpfjr0ZSvFEiaNym.3elI.0grPZouL9STAVSoN8Sbtcv//eiCAfpO', '123');
+INSERT INTO `users` (`id`, `nama`, `email`, `password`, `no_hp`) VALUES
+(1, '', 'cece@gmail.com', '$2y$10$zXna2prKHpa2/SXDrKmhOOJVVRdrSBorqGgm64QqduQ2WgpyqR4mS', ''),
+(2, 'cece', 'cekas24@gmail.com', '$2y$10$vaadKj0CHeTrhaZnAvJa4eZnq3FtWkoAdqdYGG2lE/tr966ywDC4K', '083822720524'),
+(3, 'Cekas', 'muhammadcekaspermana@student.telkomuniversity.ac.id', '$2y$10$n5MK2xHRbd3a.vIfzxO4DuXr7ZOF1YnquNHO0RIyL8xEVArRgNEt6', '345'),
+(4, 'b', 'coba2@gmail.com', '$2y$10$jynaDDOaxi.YxR/I1MKNR.gWuk6HpCM8OoHSVhNGWWKEQ308BQiMW', '678'),
+(5, 'bara', 'bara@gmail.com', '$2y$10$L.nJB8cxrxq4CkaWTd9OueOUR2imienMmUFT.FQv0tvQQT0gCqQDG', '123');
 
 --
 -- Indexes for dumped tables
@@ -78,15 +85,13 @@ INSERT INTO `user` (`id`, `nama`, `email`, `password`, `no_hp`) VALUES
 ALTER TABLE `bookings`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `id` (`id`),
-  ADD UNIQUE KEY `user_id` (`user_id`);
+  ADD KEY `user_id` (`user_id`);
 
 --
--- Indexes for table `user`
+-- Indexes for table `users`
 --
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`,`email`),
-  ADD UNIQUE KEY `id` (`id`),
-  ADD UNIQUE KEY `email` (`email`);
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`,`email`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -96,13 +101,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
--- AUTO_INCREMENT for table `user`
+-- AUTO_INCREMENT for table `users`
 --
-ALTER TABLE `user`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+ALTER TABLE `users`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
@@ -112,7 +117,7 @@ ALTER TABLE `user`
 -- Constraints for table `bookings`
 --
 ALTER TABLE `bookings`
-  ADD CONSTRAINT `bookings_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+  ADD CONSTRAINT `bookings_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
