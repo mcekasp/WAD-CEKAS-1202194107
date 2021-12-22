@@ -7,7 +7,7 @@
     <div class="container">
         <p style="padding: auto; color:cadetblue; text-align:center">There is no data ...</p>
         <div class="col-md-12 text-center">
-            <a class="btn btn-primary" href="/input" role="button">Register Patient</a>
+            <a class="btn btn-primary" href="/input_patient" role="button">Register Patient</a>
         </div>
     </div>
 @endsection

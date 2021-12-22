@@ -3,21 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\vaccines;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\DB;
 
 class VaccineController extends Controller
 {
     public function read()
     {
-        $vaccine = vaccines::get();
+        $vaccine = vaccines::all();
         return view('vaccine',compact('vaccine'),['title'=>'Vaccine']);
     }
 
     public function addVaccine(Request $request)
     {
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
         $image = time().'.'.$request->image->extension();
         $request->image->move(public_path('images/upload'), $image);
 
