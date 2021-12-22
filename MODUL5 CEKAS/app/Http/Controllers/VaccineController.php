@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\vaccines;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class VaccineController extends Controller
 {
     public function read()
     {
-        $vaccine = vaccines::all();
+        $vaccine = vaccines::get();
         return view('vaccine',compact('vaccine'),['title'=>'Vaccine']);
     }
 

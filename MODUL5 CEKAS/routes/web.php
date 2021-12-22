@@ -14,47 +14,50 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+function routes()
+{
 
-Route::get('/home', function () {
-    return view('home', [
-        "title" => "Home"
-    ]);
-});
+    Route::get('/', function () {
+        return view('welcome');
+    });
 
-Route::get('/vaccine',[VaccineController::class, 'read'])->name('vaccine');
+    Route::get('/home', function () {
+        return view('home', [
+            "title" => "Home"
+        ]);
+    });
 
-Route::get('/input_vaccine', function () {
-    return view('input_vaccine', [
-        "title" => "Vaccine"
-    ]);
-});
+    Route::get('/vaccine', [VaccineController::class, 'read'])->name('vaccine');
 
-Route::post('/input_vaccine',[VaccineController::class, "addVaccine"])->name('addVaccine');
+    Route::get('/input_vaccine', function () {
+        return view('input_vaccine', [
+            "title" => "Vaccine"
+        ]);
+    });
 
-Route::get('/update_vaccine', function () {
-    return view('update_vaccine', [
-        "title" => "Vaccine"
-    ]);
-});
+    Route::post('/input_vaccine', [VaccineController::class, "addVaccine"])->name('addVaccine');
 
-Route::get('/patient', function () {
-    return view('patient', [
-        "title" => "Patient"
-    ]);
-});
+    Route::get('/update_vaccine', function () {
+        return view('update_vaccine', [
+            "title" => "Vaccine"
+        ]);
+    });
 
-Route::get('/input_patient', function () {
-    return view('input_patient', [
-        "title" => "Patient"
-    ]);
-});
+    Route::get('/patient', function () {
+        return view('patient', [
+            "title" => "Patient"
+        ]);
+    });
 
-Route::get('/update_patient', function () {
-    return view('update_patient', [
-        "title" => "Patient"
-    ]);
-});
+    Route::get('/input_patient', function () {
+        return view('input_patient', [
+            "title" => "Patient"
+        ]);
+    });
 
+    Route::get('/update_patient', function () {
+        return view('update_patient', [
+            "title" => "Patient"
+        ]);
+    });
+}
