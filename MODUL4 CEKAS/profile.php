@@ -73,7 +73,7 @@ if(isset($_POST["simpan"])){
 
     <!---body profile --->
     <form action= "" method="POST" style="margin-top: 50px; margin-right:80px; margin-left:80px;">
-    <h4 class="card-title text-center mt-4 pb-2">Profile</h4>
+      <h4 class="card-title text-center mt-4 pb-2">Profile</h4>
       <div class="row mb-3">
         <label for="email" class="col-sm-2 col-form-label">Email</label>
         <div class="col-sm-10">
